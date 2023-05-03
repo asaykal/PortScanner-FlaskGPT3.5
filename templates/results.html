@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Port Scan Results</title>
+  <link rel="stylesheet" href="static/css/results_style.css">
+</head>
+<body>
+  <h1>Scan Results</h1>
+  {% if open_ports %}
+  <table>
+      <thead>
+          <tr>
+              <th>Port</th>
+              <th>Name</th>
+              <th>Product</th>
+              <th>Version</th>
+              <th>Extra Info</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for port in open_ports %}
+              <tr>
+                  <td>{{ port['port'] }}</td>
+                  <td>{{ port['name'] }}</td>
+                  <td>{{ port['product'] }}</td>
+                  <td>{{ port['version'] }}</td>
+                  <td>{{ port['extrainfo'] }}</td>
+                  <td>
+                    <form action="/action" method="POST">
+                      <input type="hidden" name="port" value="{{ port['port'] }}">
+                      <input type="hidden" name="product" value="{{ port['product'] }}">
+                      <input type="hidden" name="version" value="{{ port['version'] }}">
+                      <input type="hidden" name="extrainfo" value="{{ port['extrainfo'] }}">
+                      <button type="submit">Action</button>
+                    </form>                    
+                  </td>
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+  {% else %}
+  <p>No open ports found.</p>
+  {% endif %}
+</body>
+</html>
